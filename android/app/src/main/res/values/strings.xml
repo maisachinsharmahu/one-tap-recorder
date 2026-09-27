@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">One Tap Recorder</string>
+    <string name="widget_description">Start or stop a 4K screen recording</string>
+</resources>

@@ -1,0 +1,9 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_description"
+    android:initialLayout="@layout/recorder_widget"
+    android:minWidth="56dp" android:minHeight="56dp"
+    android:minResizeWidth="56dp" android:minResizeHeight="56dp"
+    android:previewLayout="@layout/recorder_widget"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="1" android:targetCellHeight="1"
+    android:updatePeriodMillis="0" android:widgetCategory="home_screen" />
