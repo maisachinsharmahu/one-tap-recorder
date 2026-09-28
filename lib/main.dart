@@ -10,7 +10,7 @@ class RecorderApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'One Tap Recorder',
+    title: 'One Tap',
     theme: ThemeData(
       brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xFF080808),
@@ -383,11 +383,11 @@ class _RecorderHomeState extends State<RecorderHome>
         builder: (context) => AlertDialog(
           backgroundColor: const Color(0xFF151515),
           title: const Text(
-            'TWO-FINGER GESTURE',
+            'ONE TAP GESTURES',
             style: TextStyle(fontFamily: 'Doto'),
           ),
           content: const Text(
-            'Android requires Touch Exploration for global multi-finger gestures. Enabling it can change how normal taps and navigation behave. This service cannot read screen content and does not poll sensors.',
+            'Two-finger single tap takes a screenshot. Two-finger double tap starts or stops recording. Android requires Touch Exploration, which can change normal touch navigation. The service cannot read window content and does not poll sensors.',
           ),
           actions: [
             TextButton(
@@ -435,7 +435,7 @@ class _RecorderHomeState extends State<RecorderHome>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  gestureEnabled ? 'GESTURE ACTIVE' : 'ENABLE QUICK GESTURE',
+                  gestureEnabled ? 'GESTURES ACTIVE' : 'ENABLE QUICK GESTURES',
                   style: const TextStyle(
                     fontFamily: 'Doto',
                     fontWeight: FontWeight.bold,
@@ -445,8 +445,8 @@ class _RecorderHomeState extends State<RecorderHome>
                 const SizedBox(height: 5),
                 Text(
                   gestureEnabled
-                      ? 'Double-tap with two fingers to start or stop'
-                      : 'Enable the event-driven accessibility trigger',
+                      ? '1 tap: screenshot  •  2 taps: record'
+                      : 'Screenshot and recording shortcuts',
                   style: const TextStyle(
                     fontSize: 10,
                     height: 1.35,

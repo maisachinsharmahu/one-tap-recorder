@@ -1,6 +1,6 @@
-# One Tap Recorder
+# One Tap
 
-**Start a high-quality screen recording straight from your home screen.**
+**Screenshot or start a high-quality screen recording with two fingers.**
 
 Android already has a capable screen recorder, but getting to it means
 opening Quick Settings, finding the tile, choosing the audio source, and
@@ -43,10 +43,10 @@ updates can then be installed normally without removing the app.
   in your gallery.
 - **Includes a Quick Settings tile.** If the widget is not convenient for a
   particular layout, the same recorder is available from the system shade.
-- **Optional two-finger gesture.** Enable the minimal Accessibility trigger,
-  then double-tap with two fingers anywhere to open recording immediately—or
-  use the same gesture while recording to stop and save. It is event-driven:
-  there is no sensor polling, overlay, or wake lock.
+- **Optional two-finger gestures.** A single tap with two fingers invokes
+  Android's native screenshot action; a double tap starts recording, or stops
+  and saves an active recording. The trigger is event-driven: there is no
+  sensor polling, overlay, or idle wake lock.
 - **Shows the real system recording state.** Android's status/privacy
   indicator and an ongoing notification remain visible for the full capture.
 - **Survives ordinary screen-off transitions.** A recording-scoped partial
@@ -61,6 +61,11 @@ updates can then be installed normally without removing the app.
 Download the latest APK from the [Releases](../../releases) page, open it on
 your Android phone, and allow installation from your browser or file manager
 when Android asks.
+
+If Play Protect blocks the gesture-enabled build because it declares an
+Accessibility service, connect the phone with USB debugging and run
+`Install-OneTapRecorder.command` on a Mac. The script uses Android's official
+ADB developer-install flow; it does not disable Play Protect globally.
 
 Open One Tap Recorder once to grant microphone and notification permissions.
 Then long-press an empty area of the home screen, choose **Widgets**, find
@@ -91,7 +96,8 @@ The APK will be written to
 2. Add the home-screen widget and resize it to whichever layout fits.
 3. Optionally enable **Quick Gesture** and turn on **Two-finger recording
    gesture** in Android Accessibility settings.
-4. Tap the red record control, or double-tap the screen with two fingers.
+4. Tap once with two fingers for a screenshot, or double-tap with two fingers
+   to start recording. The red widget control remains available too.
 5. Android displays its official screen-capture dialog. Tap **Start now**.
 6. Record normally. Repeat the gesture, tap the widget, or use the
    notification action to stop and save.

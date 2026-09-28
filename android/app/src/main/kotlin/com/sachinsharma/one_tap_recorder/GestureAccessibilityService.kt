@@ -5,6 +5,7 @@ import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
 import android.os.Build
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Toast
 
 /**
  * Event-driven global gesture trigger. It deliberately does not request
@@ -24,12 +25,23 @@ class GestureAccessibilityService : AccessibilityService() {
 
     @Suppress("DEPRECATION")
     override fun onGesture(gestureId: Int): Boolean {
-        if (Build.VERSION.SDK_INT >= 30 && gestureId == GESTURE_2_FINGER_DOUBLE_TAP) {
-            startActivity(
-                Intent(this, ConsentActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            )
-            return true
+        if (Build.VERSION.SDK_INT >= 30) {
+            when (gestureId) {
+                GESTURE_2_FINGER_SINGLE_TAP -> {
+                    val accepted = performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT)
+                    if (!accepted) {
+                        Toast.makeText(this, "Screenshot unavailable", Toast.LENGTH_SHORT).show()
+                    }
+                    return true
+                }
+                GESTURE_2_FINGER_DOUBLE_TAP -> {
+                    startActivity(
+                        Intent(this, ConsentActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    )
+                    return true
+                }
+            }
         }
         return super.onGesture(gestureId)
     }
