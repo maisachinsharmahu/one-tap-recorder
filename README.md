@@ -20,6 +20,11 @@ Version 1.0.3 refreshes every widget size with tighter Nothing-style tiles,
 bitmap-inspired Doto typography, restrained spacing, and a clear record/stop
 state while keeping the capture engine unchanged.
 
+Official releases from v1.1.2 onward use the project's stable release
+certificate rather than an Android debug key. Builds installed from older
+releases must be uninstalled once before installing v1.1.2; future official
+updates can then be installed normally without removing the app.
+
 ## What it does
 
 - **Records from a home-screen widget.** No need to open the app or hunt
