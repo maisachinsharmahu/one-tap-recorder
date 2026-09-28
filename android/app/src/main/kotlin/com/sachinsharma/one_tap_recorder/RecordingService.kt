@@ -47,6 +47,7 @@ class RecordingService : Service() {
     private var outputUri: Uri? = null
     private var encoderThread: Thread? = null
     private var audioThread: Thread? = null
+    private var recordingWakeLock: PowerManager.WakeLock? = null
 
     override fun onBind(intent: Intent?) = null
 
@@ -90,6 +91,7 @@ class RecordingService : Service() {
         }
         running.set(true)
         isRecording = true
+        acquireRecordingWakeLock()
         updateSurfaces()
         Thread({ startCapture(resultCode, resultData) }, "RecorderSetup").start()
         return START_NOT_STICKY
@@ -340,6 +342,25 @@ class RecordingService : Service() {
         try { videoCodec?.signalEndOfInputStream() } catch (_: Exception) {}
     }
 
+    private fun acquireRecordingWakeLock() {
+        if (recordingWakeLock?.isHeld == true) return
+        recordingWakeLock = getSystemService(PowerManager::class.java)
+            .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "$packageName:screen-recording")
+            .apply {
+                setReferenceCounted(false)
+                acquire()
+            }
+    }
+
+    private fun releaseRecordingWakeLock() {
+        try {
+            if (recordingWakeLock?.isHeld == true) recordingWakeLock?.release()
+        } catch (_: RuntimeException) {
+        } finally {
+            recordingWakeLock = null
+        }
+    }
+
     private fun finishRecording(muxerStarted: Boolean) {
         try { audioThread?.join(1000) } catch (_: Exception) {}
         try { micRecord?.release() } catch (_: Exception) {}
@@ -350,6 +371,7 @@ class RecordingService : Service() {
         try { outputPfd?.close() } catch (_: Exception) {}
         outputUri?.let { contentResolver.update(it, ContentValues().apply { put(MediaStore.Video.Media.IS_PENDING, 0) }, null, null) }
         try { projection?.stop() } catch (_: Exception) {}
+        releaseRecordingWakeLock()
         isRecording = false
         updateSurfaces()
         stopForeground(STOP_FOREGROUND_REMOVE)
@@ -363,6 +385,7 @@ class RecordingService : Service() {
 
     override fun onDestroy() {
         if (running.get()) requestStop()
+        releaseRecordingWakeLock()
         super.onDestroy()
     }
 }

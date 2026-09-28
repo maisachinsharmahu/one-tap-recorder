@@ -44,6 +44,9 @@ state while keeping the capture engine unchanged.
   there is no sensor polling, overlay, or wake lock.
 - **Shows the real system recording state.** Android's status/privacy
   indicator and an ongoing notification remain visible for the full capture.
+- **Survives ordinary screen-off transitions.** A recording-scoped partial
+  wake lock keeps the encoder, audio mixer, and file finalizer running when
+  the display sleeps. It is released immediately when recording ends.
 - **Stays local.** Recordings never leave the phone.
 
 ## Install
