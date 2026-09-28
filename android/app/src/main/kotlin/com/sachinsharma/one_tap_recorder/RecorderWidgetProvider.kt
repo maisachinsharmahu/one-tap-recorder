@@ -46,11 +46,12 @@ class RecorderWidgetProvider : AppWidgetProvider() {
                 else -> R.layout.recorder_widget
             }
             return RemoteViews(context.packageName, layout).apply {
+                setImageViewResource(R.id.widget_icon, if (recording) R.drawable.ic_stop else R.drawable.ic_record)
                 when (layout) {
                     R.layout.recorder_widget_compact -> setOnClickPendingIntent(R.id.widget_root, pending)
                     R.layout.recorder_widget -> {
                         setTextViewText(R.id.widget_title, if (recording) "STOP RECORDING" else "RECORD")
-                        setTextViewText(R.id.widget_subtitle, if (recording) "TAP TO SAVE" else "$quality • $audio")
+                        setTextViewText(R.id.widget_subtitle, if (recording) "TAP TO SAVE" else "$quality / ${fps}FPS  •  $audio")
                         setOnClickPendingIntent(R.id.widget_root, pending)
                     }
                     else -> {

@@ -16,6 +16,10 @@ full recording panel when you expand it.
 It's a small Android app with a Nothing OS-inspired interface. No accounts,
 no ads, no analytics, no network access — see [PRIVACY.md](PRIVACY.md).
 
+Version 1.0.3 refreshes every widget size with tighter Nothing-style tiles,
+bitmap-inspired Doto typography, restrained spacing, and a clear record/stop
+state while keeping the capture engine unchanged.
+
 ## What it does
 
 - **Records from a home-screen widget.** No need to open the app or hunt

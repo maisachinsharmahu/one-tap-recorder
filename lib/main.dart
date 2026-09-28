@@ -18,7 +18,7 @@ class RecorderApp extends StatelessWidget {
         primary: Color(0xFFFF3131),
         surface: Color(0xFF151515),
       ),
-      fontFamily: 'monospace',
+      fontFamily: 'sans-serif',
       useMaterial3: true,
     ),
     home: const RecorderHome(),
@@ -96,6 +96,7 @@ class _RecorderHomeState extends State<RecorderHome>
                 Text(
                   'ONE TAP',
                   style: TextStyle(
+                    fontFamily: 'Doto',
                     fontSize: 13,
                     letterSpacing: 4,
                     fontWeight: FontWeight.w800,
@@ -104,6 +105,7 @@ class _RecorderHomeState extends State<RecorderHome>
                 Text(
                   'REC • 01',
                   style: TextStyle(
+                    fontFamily: 'Doto',
                     fontSize: 11,
                     color: Colors.white54,
                     letterSpacing: 2,
@@ -115,6 +117,7 @@ class _RecorderHomeState extends State<RecorderHome>
             Text(
               recording ? 'RECORDING' : 'SCREEN\nRECORDER',
               style: const TextStyle(
+                fontFamily: 'Doto',
                 fontSize: 42,
                 height: .92,
                 letterSpacing: -2,
@@ -171,6 +174,7 @@ class _RecorderHomeState extends State<RecorderHome>
                         Text(
                           recording ? 'STOP + SAVE' : 'START',
                           style: TextStyle(
+                            fontFamily: 'Doto',
                             color: recording ? Colors.black : Colors.white,
                             fontSize: 13,
                             letterSpacing: 2,
@@ -280,6 +284,7 @@ class _RecorderHomeState extends State<RecorderHome>
         Text(
           title,
           style: const TextStyle(
+            fontFamily: 'Doto',
             fontSize: 10,
             color: Colors.white54,
             letterSpacing: 2,
