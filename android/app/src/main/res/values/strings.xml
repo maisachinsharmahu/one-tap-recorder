@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">One Tap</string>
     <string name="widget_description">Start or stop a 4K screen recording</string>
-    <string name="gesture_service_label">One Tap gestures</string>
-    <string name="gesture_service_description">Takes a screenshot with a two-finger single tap and starts or stops recording with a two-finger double tap. It does not read window content.</string>
+    <string name="shortcut_service_label">One Tap button shortcut</string>
+    <string name="shortcut_service_description">Double-press Volume Up to start or stop recording. Normal touch gestures remain unchanged and window content cannot be read.</string>
 </resources>

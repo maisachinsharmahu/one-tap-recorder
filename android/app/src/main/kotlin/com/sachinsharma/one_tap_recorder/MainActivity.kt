@@ -1,12 +1,11 @@
 package com.sachinsharma.one_tap_recorder
 
-import android.content.Intent
 import android.app.StatusBarManager
 import android.content.ComponentName
+import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.provider.Settings
-import android.service.quicksettings.TileService
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.plugin.common.MethodChannel
@@ -28,8 +27,8 @@ class MainActivity : FlutterActivity() {
                     result.success(null)
                 }
                 "isRecording" -> result.success(RecordingService.isRecording)
-                "isGestureEnabled" -> result.success(isGestureServiceEnabled())
-                "openGestureSettings" -> {
+                "isShortcutEnabled" -> result.success(isShortcutServiceEnabled())
+                "openShortcutSettings" -> {
                     startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
                     result.success(null)
                 }
@@ -67,8 +66,8 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun isGestureServiceEnabled(): Boolean {
-        val component = ComponentName(this, GestureAccessibilityService::class.java)
+    private fun isShortcutServiceEnabled(): Boolean {
+        val component = ComponentName(this, RecordShortcutService::class.java)
         val enabled = Settings.Secure.getString(
             contentResolver,
             Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES

@@ -54,17 +54,17 @@
             </intent-filter>
         </service>
         <service
-            android:name=".GestureAccessibilityService"
-            android:description="@string/gesture_service_description"
+            android:name=".RecordShortcutService"
+            android:description="@string/shortcut_service_description"
             android:exported="true"
-            android:label="@string/gesture_service_label"
+            android:label="@string/shortcut_service_label"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
             <meta-data
                 android:name="android.accessibilityservice"
-                android:resource="@xml/gesture_accessibility_service" />
+                android:resource="@xml/record_shortcut_service" />
         </service>
         <receiver
             android:name=".RecorderWidgetProvider"

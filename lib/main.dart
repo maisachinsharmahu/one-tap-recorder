@@ -35,7 +35,7 @@ class _RecorderHomeState extends State<RecorderHome>
     with WidgetsBindingObserver {
   static const channel = MethodChannel('one_tap_recorder/control');
   bool recording = false, deviceAudio = true, micAudio = true;
-  bool gestureEnabled = false;
+  bool shortcutEnabled = false;
   String quality = '4K';
   int fps = 60;
   Timer? timer;
@@ -56,8 +56,8 @@ class _RecorderHomeState extends State<RecorderHome>
     fps = data['fps'];
     deviceAudio = data['deviceAudio'];
     micAudio = data['micAudio'];
-    gestureEnabled =
-        await channel.invokeMethod<bool>('isGestureEnabled') ?? false;
+    shortcutEnabled =
+        await channel.invokeMethod<bool>('isShortcutEnabled') ?? false;
     await _status();
   }
 
@@ -220,7 +220,7 @@ class _RecorderHomeState extends State<RecorderHome>
               }),
             ]),
             const SizedBox(height: 14),
-            _gestureCard(),
+            _shortcutCard(),
             const SizedBox(height: 14),
             InkWell(
               onTap: () => channel.invokeMethod('requestTile'),
@@ -376,38 +376,8 @@ class _RecorderHomeState extends State<RecorderHome>
     ),
   );
 
-  Future<void> _openGestureSettings() async {
-    if (!gestureEnabled) {
-      final proceed = await showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: const Color(0xFF151515),
-          title: const Text(
-            'ONE TAP GESTURES',
-            style: TextStyle(fontFamily: 'Doto'),
-          ),
-          content: const Text(
-            'Two-finger single tap takes a screenshot. Two-finger double tap starts or stops recording. Android requires Touch Exploration, which can change normal touch navigation. The service cannot read window content and does not poll sensors.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('CANCEL'),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('OPEN SETTINGS'),
-            ),
-          ],
-        ),
-      );
-      if (proceed != true) return;
-    }
-    await channel.invokeMethod('openGestureSettings');
-  }
-
-  Widget _gestureCard() => InkWell(
-    onTap: _openGestureSettings,
+  Widget _shortcutCard() => InkWell(
+    onTap: () => channel.invokeMethod('openShortcutSettings'),
     borderRadius: BorderRadius.circular(22),
     child: Container(
       padding: const EdgeInsets.all(20),
@@ -415,7 +385,7 @@ class _RecorderHomeState extends State<RecorderHome>
         color: const Color(0xFF151515),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: gestureEnabled ? const Color(0x55FF3131) : Colors.white12,
+          color: shortcutEnabled ? const Color(0x55FF3131) : Colors.white12,
         ),
       ),
       child: Row(
@@ -425,9 +395,9 @@ class _RecorderHomeState extends State<RecorderHome>
             height: 48,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: gestureEnabled ? const Color(0xFFFF3131) : Colors.white10,
+              color: shortcutEnabled ? const Color(0xFFFF3131) : Colors.white10,
             ),
-            child: const Icon(Icons.gesture_rounded, color: Colors.white),
+            child: const Icon(Icons.volume_up_rounded, color: Colors.white),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -435,7 +405,7 @@ class _RecorderHomeState extends State<RecorderHome>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  gestureEnabled ? 'GESTURES ACTIVE' : 'ENABLE QUICK GESTURES',
+                  shortcutEnabled ? 'BUTTON ACTIVE' : 'ENABLE BUTTON SHORTCUT',
                   style: const TextStyle(
                     fontFamily: 'Doto',
                     fontWeight: FontWeight.bold,
@@ -443,11 +413,9 @@ class _RecorderHomeState extends State<RecorderHome>
                   ),
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  gestureEnabled
-                      ? '1 tap: screenshot  •  2 taps: record'
-                      : 'Screenshot and recording shortcuts',
-                  style: const TextStyle(
+                const Text(
+                  'Double-press Volume Up to start or stop',
+                  style: TextStyle(
                     fontSize: 10,
                     height: 1.35,
                     color: Colors.white54,
@@ -457,9 +425,9 @@ class _RecorderHomeState extends State<RecorderHome>
             ),
           ),
           Icon(
-            gestureEnabled ? Icons.check_circle : Icons.arrow_outward,
+            shortcutEnabled ? Icons.check_circle : Icons.arrow_outward,
             size: 20,
-            color: gestureEnabled ? const Color(0xFFFF3131) : Colors.white54,
+            color: shortcutEnabled ? const Color(0xFFFF3131) : Colors.white54,
           ),
         ],
       ),

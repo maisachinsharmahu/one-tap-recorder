@@ -3,7 +3,7 @@
 set -u
 
 installer_dir="${0:A:h}"
-apk_path="$installer_dir/OneTap-v1.2.0-release.apk"
+apk_path="$installer_dir/OneTap-v1.2.1-release.apk"
 adb_path="$(command -v adb 2>/dev/null || true)"
 
 if [[ -z "$adb_path" && -x "$HOME/Library/Android/sdk/platform-tools/adb" ]]; then
@@ -22,7 +22,7 @@ if [[ -z "$adb_path" ]]; then
 fi
 
 if [[ ! -f "$apk_path" ]]; then
-  echo "Place OneTap-v1.2.0-release.apk beside this installer."
+  echo "Place OneTap-v1.2.1-release.apk beside this installer."
   echo
   read "?Press Return to close..."
   exit 1

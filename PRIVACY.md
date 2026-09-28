@@ -12,12 +12,10 @@ Android itself displays the screen-capture confirmation and recording privacy
 indicator. Device-audio availability is controlled by Android and by the app
 being recorded.
 
-The optional two-finger gesture uses an Android Accessibility service because
-Android exposes global multi-finger gesture events only through that API. The
-service declares that it cannot retrieve window content, does not inspect UI
-elements, and does not use sensor polling, overlays, networking, or wake locks.
-It reacts only when Android reports the configured gesture. The feature is
-disabled until the user explicitly enables it in Android Accessibility
-settings and can be disabled there at any time.
+The optional hardware shortcut uses an Android Accessibility service only to
+observe Volume Up key events. It cannot retrieve window content and does not
+enable Touch Exploration, inspect UI elements, poll sensors, use overlays, or
+access the network. Key events are returned to Android so normal volume
+behavior continues.
 
 Questions can be opened as an issue in this repository.
