@@ -2,8 +2,10 @@ package com.sachinsharma.one_tap_recorder
 
 import android.content.Intent
 import android.app.StatusBarManager
+import android.content.ComponentName
 import android.graphics.drawable.Icon
 import android.os.Bundle
+import android.provider.Settings
 import android.service.quicksettings.TileService
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.android.FlutterActivity
@@ -26,6 +28,11 @@ class MainActivity : FlutterActivity() {
                     result.success(null)
                 }
                 "isRecording" -> result.success(RecordingService.isRecording)
+                "isGestureEnabled" -> result.success(isGestureServiceEnabled())
+                "openGestureSettings" -> {
+                    startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                    result.success(null)
+                }
                 "getSettings" -> result.success(mapOf(
                     "quality" to prefs.getString("quality", "4K"),
                     "fps" to prefs.getInt("fps", 60),
@@ -58,5 +65,16 @@ class MainActivity : FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+    }
+
+    private fun isGestureServiceEnabled(): Boolean {
+        val component = ComponentName(this, GestureAccessibilityService::class.java)
+        val enabled = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
+        ) ?: return false
+        return enabled.split(':')
+            .mapNotNull(ComponentName::unflattenFromString)
+            .any { it == component }
     }
 }

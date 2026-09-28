@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">One Tap Recorder</string>
     <string name="widget_description">Start or stop a 4K screen recording</string>
+    <string name="gesture_service_label">Two-finger recording gesture</string>
+    <string name="gesture_service_description">Starts or stops screen recording when you double-tap with two fingers. It does not read screen content.</string>
 </resources>

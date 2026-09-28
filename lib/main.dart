@@ -35,6 +35,7 @@ class _RecorderHomeState extends State<RecorderHome>
     with WidgetsBindingObserver {
   static const channel = MethodChannel('one_tap_recorder/control');
   bool recording = false, deviceAudio = true, micAudio = true;
+  bool gestureEnabled = false;
   String quality = '4K';
   int fps = 60;
   Timer? timer;
@@ -55,6 +56,8 @@ class _RecorderHomeState extends State<RecorderHome>
     fps = data['fps'];
     deviceAudio = data['deviceAudio'];
     micAudio = data['micAudio'];
+    gestureEnabled =
+        await channel.invokeMethod<bool>('isGestureEnabled') ?? false;
     await _status();
   }
 
@@ -217,6 +220,8 @@ class _RecorderHomeState extends State<RecorderHome>
               }),
             ]),
             const SizedBox(height: 14),
+            _gestureCard(),
+            const SizedBox(height: 14),
             InkWell(
               onTap: () => channel.invokeMethod('requestTile'),
               borderRadius: BorderRadius.circular(22),
@@ -368,6 +373,96 @@ class _RecorderHomeState extends State<RecorderHome>
           activeTrackColor: const Color(0x55FF3131),
         ),
       ],
+    ),
+  );
+
+  Future<void> _openGestureSettings() async {
+    if (!gestureEnabled) {
+      final proceed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: const Color(0xFF151515),
+          title: const Text(
+            'TWO-FINGER GESTURE',
+            style: TextStyle(fontFamily: 'Doto'),
+          ),
+          content: const Text(
+            'Android requires Touch Exploration for global multi-finger gestures. Enabling it can change how normal taps and navigation behave. This service cannot read screen content and does not poll sensors.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('CANCEL'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('OPEN SETTINGS'),
+            ),
+          ],
+        ),
+      );
+      if (proceed != true) return;
+    }
+    await channel.invokeMethod('openGestureSettings');
+  }
+
+  Widget _gestureCard() => InkWell(
+    onTap: _openGestureSettings,
+    borderRadius: BorderRadius.circular(22),
+    child: Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFF151515),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: gestureEnabled ? const Color(0x55FF3131) : Colors.white12,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: gestureEnabled ? const Color(0xFFFF3131) : Colors.white10,
+            ),
+            child: const Icon(Icons.gesture_rounded, color: Colors.white),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  gestureEnabled ? 'GESTURE ACTIVE' : 'ENABLE QUICK GESTURE',
+                  style: const TextStyle(
+                    fontFamily: 'Doto',
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  gestureEnabled
+                      ? 'Double-tap with two fingers to start or stop'
+                      : 'Enable the event-driven accessibility trigger',
+                  style: const TextStyle(
+                    fontSize: 10,
+                    height: 1.35,
+                    color: Colors.white54,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(
+            gestureEnabled ? Icons.check_circle : Icons.arrow_outward,
+            size: 20,
+            color: gestureEnabled ? const Color(0xFFFF3131) : Colors.white54,
+          ),
+        ],
+      ),
     ),
   );
 }

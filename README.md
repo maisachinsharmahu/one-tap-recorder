@@ -38,6 +38,10 @@ state while keeping the capture engine unchanged.
   in your gallery.
 - **Includes a Quick Settings tile.** If the widget is not convenient for a
   particular layout, the same recorder is available from the system shade.
+- **Optional two-finger gesture.** Enable the minimal Accessibility trigger,
+  then double-tap with two fingers anywhere to open recording immediately—or
+  use the same gesture while recording to stop and save. It is event-driven:
+  there is no sensor polling, overlay, or wake lock.
 - **Shows the real system recording state.** Android's status/privacy
   indicator and an ongoing notification remain visible for the full capture.
 - **Stays local.** Recordings never leave the phone.
@@ -77,9 +81,12 @@ The APK will be written to
 
 1. Open the app once and keep **Device audio** and **Microphone** enabled.
 2. Add the home-screen widget and resize it to whichever layout fits.
-3. Tap the red record control.
-4. Android displays its official screen-capture dialog. Tap **Start now**.
-5. Record normally. Tap the widget or notification action to stop and save.
+3. Optionally enable **Quick Gesture** and turn on **Two-finger recording
+   gesture** in Android Accessibility settings.
+4. Tap the red record control, or double-tap the screen with two fingers.
+5. Android displays its official screen-capture dialog. Tap **Start now**.
+6. Record normally. Repeat the gesture, tap the widget, or use the
+   notification action to stop and save.
 
 Recordings are stored in `Movies/OneTapRecorder` and are indexed by Android,
 so they show up in Gallery and Google Photos without a manual import.
@@ -124,6 +131,7 @@ reliable on devices whose encoder rejects 4K or 60 FPS.
 | Screen capture | Granted through Android's system MediaProjection dialog |
 | Notifications | Shows the active recording and Stop action |
 | Foreground service | Keeps capture alive when the app UI is closed |
+| Accessibility (optional) | Receives the two-finger double-tap gesture; window-content access is disabled |
 
 There is intentionally no Internet permission.
 
